@@ -7,10 +7,6 @@
 
 In this module, students will add a small real-time chat page to the completed Hoot application. The chat will use **Socket.IO**, a library that gives us an event-based way to create real-time communication between an Express server and a React client.
 
-The feature is intentionally small: every signed-in user who opens the Chat page joins one global chat. Messages are shared immediately with every connected browser, but they are not saved in MongoDB. This keeps the first WebSocket lesson focused on connections, events, and React state.
-
-Although the final code is short, the lesson builds it in small steps. Students will check the Express terminal, browser console, page interface, and browser network tools as each part is connected.
-
 ## Learning objectives
 
 By the end of this module, students will be able to:
@@ -58,39 +54,9 @@ On that page, a signed-in user can:
 - Receive the server's broadcast.
 - See messages sent from other open browsers without refreshing the page.
 
-## Deliberate limitations
-
-This is a learning build, not a production chat system.
-
-- Messages are not stored in MongoDB.
-- Refreshing the page clears the visible message list.
-- A user who opens Chat later does not receive older messages.
-- There is one global chat rather than a room for each hoot.
-- The React route is protected, but the socket connection itself is not yet authenticated.
-
-These limitations are useful. They let students see exactly what a socket does before adding databases, rooms, middleware, or delivery guarantees.
 
 ## References
 
 📖 [Reference Materials](./references/README.md)
 
-## Internal
 
-### Prerequisites
-
-- Completed Express API - Hoot Back-End
-- Completed React - Hoot Front-End
-- React state and controlled forms
-- React `useEffect`
-- Express server setup
-- Basic HTTP request and response concepts
-
-### Suggested delivery time
-
-Approximately 2 to 2.5 hours, including the two-browser test and discussion checks.
-
-### Resources
-
-✏️ [Instructor Guide](./internal-resources/instructor-guide.md)
-
-🏗️ [Release Notes](./internal-resources/release-notes.md)

@@ -3,6 +3,39 @@
   <span class="subhead">Instructor Guide</span>
 </h1>
 
+## Deliberate limitations
+
+This is a learning build, not a production chat system.
+
+- Messages are not stored in MongoDB.
+- Refreshing the page clears the visible message list.
+- A user who opens Chat later does not receive older messages.
+- There is one global chat rather than a room for each hoot.
+- The React route is protected, but the socket connection itself is not yet authenticated.
+
+These limitations are useful. They let students see exactly what a socket does before adding databases, rooms, middleware, or delivery guarantees.
+
+## Internal
+
+### Prerequisites
+
+- Completed Express API - Hoot Back-End
+- Completed React - Hoot Front-End
+- React state and controlled forms
+- React `useEffect`
+- Express server setup
+- Basic HTTP request and response concepts
+
+### Suggested delivery time
+
+Approximately 2 to 2.5 hours, including the two-browser test and discussion checks.
+
+### Resources
+
+✏️ [Instructor Guide](./internal-resources/instructor-guide.md)
+
+🏗️ [Release Notes](./internal-resources/release-notes.md)
+
 ## Lesson goal
 
 Students should finish with one small, working global chat and a clear event-flow mental model. The primary outcome is not feature richness. It is the ability to identify which program emitted an event, which program listened, where the data can be inspected, and when React state changes.
