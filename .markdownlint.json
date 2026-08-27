@@ -1,0 +1,4 @@
+{
+  "extends": "ga-mdlint/.markdownlint.json"
+}
+

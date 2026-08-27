@@ -1,0 +1,276 @@
+{
+  "org": {
+    "friendlyName": "Modular Curriculum All Courses",
+    "name": "modular-curriculum-all-courses"
+  },
+  "repo": {
+    "friendlyName": "WebSockets with Socket.IO - Hoot Chat",
+    "name": "websockets-hoot-chat",
+    "type": "Lesson",
+    "about": "Add a simple real-time chat to the completed Hoot application.",
+    "starterCode": "",
+    "solutionCode": "",
+    "deployedSite": ""
+  },
+  "courses": [
+    {
+      "name": "seb",
+      "courseAcronym": "",
+      "courseFullName": "",
+      "logoUrl": "",
+      "microlessons": [
+        {
+          "friendlyName": "Setup",
+          "dirName": "setup",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Prepare the completed Hoot applications for Socket.IO development.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 15
+        },
+        {
+          "friendlyName": "From HTTP to WebSockets",
+          "dirName": "websocket-concepts",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Compare HTTP request-response cycles with persistent event-based connections.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 20
+        },
+        {
+          "friendlyName": "Create the Socket.IO Server",
+          "dirName": "create-the-socket-server",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Attach Socket.IO to the Express HTTP server.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 20
+        },
+        {
+          "friendlyName": "Connect the React Client",
+          "dirName": "connect-the-react-client",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Open and clean up a Socket.IO connection in React.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 25
+        },
+        {
+          "friendlyName": "Build the Chat Interface",
+          "dirName": "build-the-chat-interface",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Build and verify a controlled chat form.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 15
+        },
+        {
+          "friendlyName": "Send a Chat Event",
+          "dirName": "send-a-chat-event",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Emit data from React and receive it on Express.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 15
+        },
+        {
+          "friendlyName": "Broadcast a Chat Event",
+          "dirName": "broadcast-a-chat-event",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Broadcast a server event to every connected client.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 20
+        },
+        {
+          "friendlyName": "Render Chat Messages",
+          "dirName": "render-chat-messages",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Store incoming socket events in React state and render them.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 20
+        },
+        {
+          "friendlyName": "Test and Debug",
+          "dirName": "test-and-debug",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Verify and debug each stage of a real-time event flow.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 20
+        },
+        {
+          "friendlyName": "Level Ups",
+          "dirName": "level-ups",
+          "type": "Level Up content",
+          "skill": "",
+          "learningObjective": "Plan and add focused improvements to the chat MVP.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 0
+        }
+      ],
+      "isHeaderShown": true,
+      "isHeaderModuleNavShown": true,
+      "isHeaderHomeNavShown": true,
+      "isHeaderMicrolessonNavShown": true,
+      "isHeaderMicrolessonVideoLinkShown": true,
+      "isHeaderNavSettingsShown": true,
+      "isFooterCopyrightShown": true,
+      "isFooterLessonNavShown": true,
+      "isStickyNavSettingShown": true,
+      "isStickyNavAllowed": true,
+      "isFixedNavAllowed": true,
+      "isStickyNavDefault": true,
+      "isStickyNavForcedDefault": false,
+      "isFixedNavForcedDefault": false,
+      "isDarkModeSettingShown": true,
+      "isDarkModeAllowed": true,
+      "isLightModeAllowed": true,
+      "isLightModeDefault": true,
+      "isLightModeForcedDefault": false,
+      "isDarkModeForcedDefault": false,
+      "isActivityTimeShown": true
+    },
+    {
+      "name": "fallback",
+      "courseAcronym": "",
+      "courseFullName": "",
+      "logoUrl": "",
+      "microlessons": [
+        {
+          "friendlyName": "Setup",
+          "dirName": "setup",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Prepare the completed Hoot applications for Socket.IO development.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 15
+        },
+        {
+          "friendlyName": "From HTTP to WebSockets",
+          "dirName": "websocket-concepts",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Compare HTTP request-response cycles with persistent event-based connections.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 20
+        },
+        {
+          "friendlyName": "Create the Socket.IO Server",
+          "dirName": "create-the-socket-server",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Attach Socket.IO to the Express HTTP server.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 20
+        },
+        {
+          "friendlyName": "Connect the React Client",
+          "dirName": "connect-the-react-client",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Open and clean up a Socket.IO connection in React.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 25
+        },
+        {
+          "friendlyName": "Build the Chat Interface",
+          "dirName": "build-the-chat-interface",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Build and verify a controlled chat form.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 15
+        },
+        {
+          "friendlyName": "Send a Chat Event",
+          "dirName": "send-a-chat-event",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Emit data from React and receive it on Express.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 15
+        },
+        {
+          "friendlyName": "Broadcast a Chat Event",
+          "dirName": "broadcast-a-chat-event",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Broadcast a server event to every connected client.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 20
+        },
+        {
+          "friendlyName": "Render Chat Messages",
+          "dirName": "render-chat-messages",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Store incoming socket events in React state and render them.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 20
+        },
+        {
+          "friendlyName": "Test and Debug",
+          "dirName": "test-and-debug",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Verify and debug each stage of a real-time event flow.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 20
+        },
+        {
+          "friendlyName": "Level Ups",
+          "dirName": "level-ups",
+          "type": "Level Up content",
+          "skill": "",
+          "learningObjective": "Plan and add focused improvements to the chat MVP.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 0
+        }
+      ],
+      "isHeaderShown": true,
+      "isHeaderModuleNavShown": true,
+      "isHeaderHomeNavShown": true,
+      "isHeaderMicrolessonNavShown": true,
+      "isHeaderMicrolessonVideoLinkShown": true,
+      "isHeaderNavSettingsShown": true,
+      "isFooterCopyrightShown": true,
+      "isFooterLessonNavShown": true,
+      "isStickyNavSettingShown": true,
+      "isStickyNavAllowed": true,
+      "isFixedNavAllowed": true,
+      "isStickyNavDefault": true,
+      "isStickyNavForcedDefault": false,
+      "isFixedNavForcedDefault": false,
+      "isDarkModeSettingShown": true,
+      "isDarkModeAllowed": true,
+      "isLightModeAllowed": true,
+      "isLightModeDefault": true,
+      "isLightModeForcedDefault": false,
+      "isDarkModeForcedDefault": false,
+      "isActivityTimeShown": true
+    }
+  ]
+}
+
