@@ -16,7 +16,7 @@ react-hoot-front-end
 
 The back-end should already include:
 
-- An Express server running on port `3000`.
+- An Express server running on port `3000`.  👈 **MAKE SURE YOUR REACT APP IS POINTING AT `http://localhost:3000` and not `8000`**
 - MongoDB and the Hoot models.
 - JWT authentication.
 - The Hoot and comment routes.
@@ -34,30 +34,19 @@ The front-end should already include:
 VITE_BACK_END_SERVER_URL=http://localhost:3000
 ```
 
-## Baseline check
-
-Before adding a new technology, make sure the existing application still works.
-
-Open the back-end folder in one terminal and start the Express server:
+Open the back-end and start the Express server:
 
 ```bash
 cd express-api-hoot-back-end
 npm run dev
 ```
 
-Open the front-end folder in a second terminal and start Vite:
+Open the front-end and start the React app:
 
 ```bash
 cd react-hoot-front-end
 npm run dev
 ```
-
-In the browser:
-
-1. Open the Vite URL.
-2. Sign in.
-3. Open the Hoot list.
-4. Open one Hoot details page.
 
 ### Stop and check
 
