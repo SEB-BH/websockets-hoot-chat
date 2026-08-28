@@ -34,8 +34,6 @@ The front-end should already include:
 VITE_BACK_END_SERVER_URL=http://localhost:3000
 ```
 
-> The code in this lesson passes `user` from `App.jsx` to the Chat page as a prop. It does not add `useContext`.
-
 ## Baseline check
 
 Before adding a new technology, make sure the existing application still works.
@@ -84,18 +82,6 @@ npm install socket.io@4
 
 We use `@4` to keep the server and client on the same major version.
 
-### Stop and check
-
-Run:
-
-```bash
-npm list socket.io
-```
-
-You should see a version beginning with `4` beneath the back-end project name.
-
-Also open the back-end `package.json`. Confirm that `socket.io` appears inside `dependencies`.
-
 ## Install the client package
 
 Stop the Vite server with `Control + C`.
@@ -113,37 +99,7 @@ The package names are intentionally different:
 | Express back-end | `socket.io` |
 | React front-end | `socket.io-client` |
 
-### Stop and check
 
-Run:
-
-```bash
-npm list socket.io-client
-```
-
-You should see a version beginning with `4` beneath the front-end project name.
-
-Also open the front-end `package.json`. Confirm that `socket.io-client` appears inside `dependencies`.
-
-## Restart both applications
-
-Start the Express server again:
-
-```bash
-npm run dev
-```
-
-Start Vite again in the front-end terminal:
-
-```bash
-npm run dev
-```
+Start both servers again.
 
 The Hoot application should still behave exactly as it did during the baseline check. We have installed two packages, but we have not used them yet.
-
-## Checkpoint
-
-Before moving on, explain why we installed two packages instead of one:
-
-- The Express application needs code that accepts and manages socket connections.
-- The React application needs code that opens a connection from the browser.
