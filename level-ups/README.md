@@ -105,7 +105,7 @@ Add a front-end limit to the input:
   id='message-input'
   name='message'
   type='text'
-  value={messageText}
+  value={formData}
   onChange={handleChange}
   maxLength={280}
   autoComplete='off'

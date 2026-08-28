@@ -3,6 +3,20 @@
   <span class="subhead">Instructor Guide</span>
 </h1>
 
+```json
+        {
+          "friendlyName": "Test and Debug",
+          "dirName": "test-and-debug",
+          "type": "Content",
+          "skill": "",
+          "learningObjective": "Verify and debug each stage of a real-time event flow.",
+          "videoUrl": "",
+          "videoLengthInMinutes": 0,
+          "estimatedDeliveryTimeInMinutes": 20
+        },
+
+```
+
 ## Deliberate limitations
 
 This is a learning build, not a production chat system.

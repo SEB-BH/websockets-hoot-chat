@@ -30,7 +30,8 @@ By the end of this module, students will be able to:
 | [Send a Chat Event](./send-a-chat-event/README.md) | Emitting data from the React client and receiving it on the server. |
 | [Broadcast a Chat Event](./broadcast-a-chat-event/README.md) | Sending one server event to every connected browser. |
 | [Render Chat Messages](./render-chat-messages/README.md) | Updating React state when socket events arrive. |
-| [Test and Debug](./test-and-debug/README.md) | Testing the complete flow with multiple clients and browser tools. |
+
+<!-- | [Test and Debug](./test-and-debug/README.md) | Testing the complete flow with multiple clients and browser tools. | -->
 
 ## Level Up content
 

@@ -99,16 +99,7 @@
           "videoLengthInMinutes": 0,
           "estimatedDeliveryTimeInMinutes": 20
         },
-        {
-          "friendlyName": "Test and Debug",
-          "dirName": "test-and-debug",
-          "type": "Content",
-          "skill": "",
-          "learningObjective": "Verify and debug each stage of a real-time event flow.",
-          "videoUrl": "",
-          "videoLengthInMinutes": 0,
-          "estimatedDeliveryTimeInMinutes": 20
-        },
+
         {
           "friendlyName": "Level Ups",
           "dirName": "level-ups",
@@ -228,16 +219,7 @@
           "videoLengthInMinutes": 0,
           "estimatedDeliveryTimeInMinutes": 20
         },
-        {
-          "friendlyName": "Test and Debug",
-          "dirName": "test-and-debug",
-          "type": "Content",
-          "skill": "",
-          "learningObjective": "Verify and debug each stage of a real-time event flow.",
-          "videoUrl": "",
-          "videoLengthInMinutes": 0,
-          "estimatedDeliveryTimeInMinutes": 20
-        },
+
         {
           "friendlyName": "Level Ups",
           "dirName": "level-ups",
