@@ -16,11 +16,9 @@ When the React app requests a list of hoots, the flow looks like this:
 3. Express sends one response.
 4. That request and response cycle ends.
 
-If the database changes later, the browser does not automatically know. React must make another request to receive newer data.
+**If the database changes later, the browser does not automatically know. React must make another request to receive newer data.**
 
-This pattern is a good fit for CRUD operations. A user performs an action, the client sends a request, and the server returns a response.
-
-## What changes in a real-time feature?
+### What changes in a real-time feature?
 
 A chat message should appear in other browsers immediately. We do not want every browser to repeatedly ask:
 
@@ -28,17 +26,17 @@ A chat message should appear in other browsers immediately. We do not want every
 
 Instead, the browser opens a connection and keeps it available. Once the connection exists, either side can send an event when something happens.
 
-| HTTP request and response | Socket connection |
+<!-- | HTTP request and response | Socket connection |
 | --- | --- |
 | Usually begins with a client request. | Begins by opening a connection. |
 | The server sends one response to that request. | Client and server can send many events. |
 | The request and response cycle ends. | The connection remains available until it disconnects. |
 | Routes use method and path combinations. | Communication uses named events. |
-| Postman is often enough for testing. | Two browsers, logs, and WebSocket frames are more useful. |
+| Postman is often enough for testing. | Two browsers, logs, and WebSocket frames are more useful. | -->
 
 ## What is Socket.IO?
 
-Socket.IO gives us a simple event-based API for real-time communication. It normally attempts to use a WebSocket transport and can fall back to HTTP long-polling when needed. It also provides conveniences such as reconnection and broadcasting.
+Socket.IO gives us a simple event-based API for real-time communication. It also provides conveniences such as reconnection and broadcasting, which we will go over later.
 
 Socket.IO is not the same thing as the browser's raw `WebSocket` API. A plain WebSocket client cannot communicate directly with a Socket.IO server because Socket.IO adds its own protocol. That is why we installed matching Socket.IO packages on both sides.
 
@@ -48,7 +46,7 @@ For this first lesson, Socket.IO lets us focus on three ideas:
 - Emit a named event.
 - Listen for a named event.
 
-## The important objects
+## The important objects (we will focus primarily on these during the lesson)
 
 On the server, we will use both `io` and `socket`.
 
@@ -73,11 +71,25 @@ The code above sends to every connected socket, including the browser that origi
 
 On the React side, `socket` represents that browser's connection to the server.
 
+### Another way of thinking about sockets
+
+If Aisha opens Hoot Chat in two tabs, she has:
+- 2 browser tabs
+- 2 sockets
+- only 1 user
+
+Now imagine Sara sends a message in Hoot Chat.  Sara's browser tab uses it's socket to send the message to the server (using `emit`).  The server listens for this message.  Then the server uses `io` to send the message to everyone's socket.  The browser listens for that "announcement" from the server.
+
+So sessentially:
+- a `socket` is one open connection
+- `io` is the server managing all the connections
+- the Hoot Chat is the feature we will put in our app that uses those connections
+
 ## Events must form matching pairs
 
 An emitted event needs a listener with the same event name.
 
-### React to Express
+### Some example code (we're not implementing yet, just looking)
 
 React will emit:
 
@@ -109,9 +121,7 @@ socket.on('chat message', (newMessage) => {
 })
 ```
 
-The words `chat message` are not built into Socket.IO. We chose that event name. If one side uses `chat-message` and the other uses `chat message`, the listener will never run.
-
-## Trace one message before writing code
+The words `chat message` are not built into Socket.IO. We chose that event name. **If one side uses `chat-message` and the other uses `chat message`, the listener will never run.**
 
 Our completed message flow will be:
 
@@ -138,20 +148,4 @@ In this lesson:
 - A newly connected browser receives only future messages.
 - Refreshing the page creates fresh React state.
 
-This behavior will become an important final check. It demonstrates the difference between **real-time delivery** and **persistence**.
-
-## Knowledge check
-
-Answer these questions before continuing:
-
-1. Why can the Express server send a chat event without waiting for a new HTTP request?
-2. What is the difference between `io` and `socket` on the server?
-3. What must match between `emit()` and `on()`?
-4. Will Socket.IO automatically save our messages in MongoDB?
-
-### Answer check
-
-1. The socket connection remains open and available for events.
-2. `io` represents the Socket.IO server and all connections; `socket` represents one connection.
-3. The event name must match exactly.
-4. No. We must write separate persistence code if we want stored history.
+This behavior demonstrates the difference between **real-time delivery** and **persistence**.
