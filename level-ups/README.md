@@ -215,7 +215,7 @@ A secure next step is to:
 4. Store the verified user on `socket.data`.
 5. Build the message username or author ID from `socket.data`, not from client-supplied message data.
 
-This should be taught after students understand the basic event flow because Socket.IO middleware is separate from the familiar Express route middleware.
+Socket.IO middleware is separate from the familiar Express route middleware.
 
 ## Other possible improvements
 
@@ -228,4 +228,3 @@ This should be taught after students understand the basic event flow because Soc
 - Paginate older messages.
 - Add connection-state recovery.
 
-Each feature adds a new event or state transition. Add one, name it clearly, and verify its sender and receiver before building the interface around it.
