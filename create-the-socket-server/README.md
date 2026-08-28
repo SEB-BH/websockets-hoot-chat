@@ -12,8 +12,8 @@ Open `server.js` in `express-api-hoot-back-end`.
 Near the bottom, the application currently starts with code like this:
 
 ```javascript
-app.listen(3000, () => {
-  console.log('The express app is ready!')
+app.listen(PORT, () => {
+  console.log(`The express app is ready on port ${PORT}! 😀`)
 })
 ```
 
@@ -41,39 +41,30 @@ const { Server } = require('socket.io')
 
 `Server` is the class we will use to create our Socket.IO server.
 
-The top of your file should now include all three pieces:
+The top of your file should now look like this:
 
 ```javascript
-const http = require('http')
+const dotenv = require('dotenv').config()
 const express = require('express')
+const mongoose = require('mongoose')
+const cors = require('cors')
+const morgan = require('morgan')
+const http = require('http')
 const { Server } = require('socket.io')
 
 const app = express()
 ```
 
-Keep the other imports already used by Hoot. Do not remove `mongoose`, `cors`, `morgan`, or any controller imports.
-
-### Stop and check
-
-Restart the back-end:
-
-```bash
-npm run dev
-```
-
-The Express application should still start. We imported two values, but we have not called them yet.
-
-If Node reports `Cannot find module 'socket.io'`, check that you installed `socket.io` in the **back-end** folder.
+If you get an error saying `Cannot find module 'socket.io'`, check that you installed `socket.io` in the **back-end** folder (check the setup section for instructions).
 
 ## Create an HTTP server
 
 Immediately after creating the Express `app`, add:
 
 ```javascript
+const app = express()
 const server = http.createServer(app)
 ```
-
-This line can be read from the inside out:
 
 1. `app` is the Express application.
 2. We pass `app` to `http.createServer()`.
@@ -96,9 +87,9 @@ const io = new Server(server, {
 
 The first argument is the HTTP `server` Socket.IO will share with Express.
 
-The `cors` option allows the Vite application at `http://localhost:5173` to open a connection during development.
+The `cors` option allows the Vite application at `http://localhost:5173` to open a connection during development. **MAKE SURE REACT IS RUNNING ON 5173 - IF NOT, CHANGE THE PORT NUMBER HERE**
 
-Your existing Express middleware probably includes this line:
+Your existing Express middleware already includes this line:
 
 ```javascript
 app.use(cors())
@@ -118,22 +109,13 @@ Keep it. The two CORS configurations serve related but separate parts of the app
 At the bottom of `server.js`, replace `app.listen()` with `server.listen()`:
 
 ```javascript
-server.listen(3000, () => {
-  console.log('The Express and Socket.IO server is ready!')
+server.listen(PORT, () => {
+  console.log(`The express app is ready on port ${PORT}! 😀`)
 })
 ```
 
 Do not keep both calls. Only one server should listen on port `3000`.
 
-The change is small but essential:
-
-```javascript
-// Before
-app.listen(3000, callback)
-
-// After
-server.listen(3000, callback)
-```
 
 ### Stop and check: regular HTTP still works
 
@@ -147,36 +129,37 @@ In the browser:
 
 The existing REST API should still work. This proves the new HTTP `server` is correctly passing ordinary requests to the Express `app`.
 
-If the terminal reports `EADDRINUSE`, another process is already using port `3000`, or both `app.listen()` and `server.listen()` are still present.
+If you get an error that says `EADDRINUSE`, another process is already using port `3000`, or both `app.listen()` and `server.listen()` are still present.
 
 ## Check the Socket.IO endpoint
 
-Socket.IO creates its own endpoint on the server. With the back-end running, open a separate terminal and run:
+Socket.IO creates its own endpoint on the server. In the browser, vist:
 
 ```bash
-curl "http://localhost:3000/socket.io/?EIO=4&transport=polling"
+http://localhost:3000/socket.io/?EIO=4&transport=polling
 ```
 
-The response should begin with a `0` followed by an object containing values such as `sid`, `upgrades`, `pingInterval`, and `pingTimeout`:
+You should see a JSON response that begins with a `0` followed by an object containing values such as `sid`, `upgrades`, `pingInterval`, and `pingTimeout`:
 
 ```plaintext
-0{"sid":"...","upgrades":["websocket"],...}
+0{"sid":"f6FQyc2eAN6uPZdtAAAA","upgrades":["websocket"],"pingInterval":25000,"pingTimeout":20000,"maxPayload":1000000}
 ```
 
-The values will not exactly match the example. The important result is that you receive a Socket.IO handshake instead of a `404` response.
+The values may not exactly match the example. The important result is that you receive a Socket.IO handshake instead of a `404` response.
 
-This does not yet test our React client. It only proves that Socket.IO is attached and listening.
+This does not yet test our React client. It only proves that Socket.IO is attached and listening in ou rbackend.
 
 ## Listen for connections
 
 After the Express routes and before `server.listen()`, add:
 
 ```javascript
+// add new code here
 io.on('connection', (socket) => {
-  console.log('Socket connected:', socket.id)
+  console.log('Socket connected: ', socket.id)
 
-  socket.on('disconnect', () => {
-    console.log('Socket disconnected:', socket.id)
+  socket.on('disconnect',() => {
+    console.log('Socket disconnected: ', socket.id)
   })
 })
 ```
@@ -193,8 +176,12 @@ The socket ID is not a user ID. It changes after a refresh or reconnection, so w
 Your new server setup now has this overall shape:
 
 ```javascript
-const http = require('http')
+const dotenv = require('dotenv').config()
 const express = require('express')
+const mongoose = require('mongoose')
+const cors = require('cors')
+const morgan = require('morgan')
+const http = require('http')
 const { Server } = require('socket.io')
 
 const app = express()
@@ -202,24 +189,28 @@ const server = http.createServer(app)
 
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173',
+    origin: 'http://localhost:5174',
   },
 })
+
+const PORT = process.env.PORT ? process.env.PORT : "3000"
 
 // Keep the existing database connection here
 // Keep the existing Express middleware here
 // Keep the existing Express routes here
 
+// add new code here
 io.on('connection', (socket) => {
-  console.log('Socket connected:', socket.id)
+  console.log('Socket connected: ', socket.id)
 
-  socket.on('disconnect', () => {
-    console.log('Socket disconnected:', socket.id)
+  socket.on('disconnect',() => {
+    console.log('Socket disconnected: ', socket.id)
   })
 })
 
-server.listen(3000, () => {
-  console.log('The Express and Socket.IO server is ready!')
+// this code didn't change
+server.listen(PORT, () => {
+  console.log(`The express app is ready on port ${PORT}! 😀`)
 })
 ```
 

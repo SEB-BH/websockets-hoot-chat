@@ -16,7 +16,7 @@ react-hoot-front-end
 
 The back-end should already include:
 
-- An Express server running on port `3000`.  👈 **MAKE SURE YOUR REACT APP IS POINTING AT `http://localhost:3000` and not `8000`**
+- An Express server running on port `3000`.  👈 **MAKE SURE YOUR REACT APP IS POINTING AT `http://localhost:3000` and not `8000` then restart your server**
 - MongoDB and the Hoot models.
 - JWT authentication.
 - The Hoot and comment routes.
@@ -63,7 +63,13 @@ If something is broken now, it is part of the existing application rather than t
 
 Stop the Express server with `Control + C`.
 
-Make sure the terminal is inside `express-api-hoot-back-end`, then install the Socket.IO server package:
+Before you start **🟡 CONSIDER SWITCHING TO A NEW BRANCH TO PRESERVE YOUR ORIGINAL HOOT CODE ON BOTH YOUR FRONTEND AND BACKEND:**
+
+```bash
+git checkout -b websockets
+```
+
+Make sure you'r ein your BACKEND code `express-api-hoot-back-end`, then install the Socket.IO server package:
 
 ```bash
 npm install socket.io@4
@@ -73,9 +79,9 @@ We use `@4` to keep the server and client on the same major version.
 
 ## Install the client package
 
-Stop the Vite server with `Control + C`.
+Stop the React server with `Control + C`.
 
-In the other terminal, make sure you are inside `react-hoot-front-end`, then install the Socket.IO browser client:
+In the other terminal, make sure you are inside yoru FRONTEND code `react-hoot-front-end`, then install the Socket.IO browser client:
 
 ```bash
 npm install socket.io-client@4

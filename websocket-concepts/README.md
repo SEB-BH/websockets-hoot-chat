@@ -5,7 +5,7 @@
 
 **Learning objective:** By the end of this lesson, students will be able to compare an HTTP request with a persistent socket connection and describe an event's path through our chat application.
 
-## Start with the communication pattern we already know
+## WebSocket Concepts - (there is no coding on this section - skip to `Create the Socket.IO Server` if you want to jump straight into coding)
 
 Most of Hoot currently uses HTTP.
 
