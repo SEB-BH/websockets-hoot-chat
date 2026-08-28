@@ -31,12 +31,13 @@ Update the `chat message` listener:
 socket.on('chat message', (messageData) => {
   console.log('Chat event received:', messageData)
 
+  // add this insde the listener
   const newMessage = {
     id: `${socket.id}-${Date.now()}`,
     username: messageData.username,
     text: messageData.text,
   }
-
+  
   console.log('Chat event broadcast:', newMessage)
 
   io.emit('chat message', newMessage)
@@ -83,7 +84,7 @@ io.emit('chat message', newMessage)
 
 sends the event to every connected socket, including the sender.
 
-Compare three common choices:
+<!-- Compare three common choices:
 
 | Server code | Recipients |
 | --- | --- |
@@ -91,7 +92,7 @@ Compare three common choices:
 | `socket.broadcast.emit(...)` | Every connected socket except the current socket. |
 | `io.emit(...)` | Every connected socket, including the current socket. |
 
-We want the sender to receive the server-approved `newMessage` object just like everyone else, so we use `io.emit()`.
+We want the sender to receive the server-approved `newMessage` object just like everyone else, so we use `io.emit()`. -->
 
 ## Listen in React
 
@@ -131,50 +132,51 @@ The complete effect at this checkpoint is:
 
 ```javascript
 useEffect(() => {
-  const handleConnect = () => {
-    console.log('Connected to chat:', socket.id)
-    setIsConnected(true)
-  }
+    const handleConnect = () => {
+        console.log('Connected to chat: ', socket.id)
+        setIsConnected(true)
+    }   
 
-  const handleDisconnect = () => {
-    console.log('Disconnected from chat')
-    setIsConnected(false)
-  }
+    const handleDisconnect = () => {
+        console.log('Disconnected from chat')
+        setIsConnected(false)
+    }
 
-  const handleChatMessage = (newMessage) => {
-    console.log('Chat event received from server:', newMessage)
-  }
+    const handleChatMessage = (newMessage) => {
+        console.log('Chat event received from server: ', newMessage)
+    }
 
-  socket.on('connect', handleConnect)
-  socket.on('disconnect', handleDisconnect)
-  socket.on('chat message', handleChatMessage)
+    socket.on('connect', handleConnect)
+    socket.on('disconnect', handleDisconnect)
+    socket.on('chat message', handleChatMessage)
 
-  socket.connect()
+    socket.connect()
 
-  return () => {
-    console.log('Leaving chat and closing socket')
-    socket.off('connect', handleConnect)
-    socket.off('disconnect', handleDisconnect)
-    socket.off('chat message', handleChatMessage)
-    socket.disconnect()
-  }
+    return () => {
+        console.log('Leaving chat and closing socket')
+        socket.off('connect', handleConnect)
+        socket.off('disconnect', handleDisconnect)
+        socket.off('chat message', handleChatMessage)
+        socket.disconnect()
+    }
 }, [])
 ```
 
 ## Stop and check in one browser
 
-Submit a message from Chat.
+Refresh your React page.  Then submit a message from Chat.
 
-You should now see four stages across the logs:
+You should now see four stages across the console.logs:
 
-1. Browser: `Chat event emitted`
+1. Browser: `Chat form submitted`
 2. Server: `Chat event received`
 3. Server: `Chat event broadcast`
 4. Browser: `Chat event received from server`
 
-The returned object in stage 4 should include the new `id` created by Express.
+The returned object should include the new `id` created by Express.
 
-The UI still does not render the message. That is expected.
+![browser-console](./assets/browser-console.png)
+![server-console](./assets/server-console.png)
 
 ## Stop and check in two browsers
 
@@ -196,7 +198,7 @@ This is our first proof that the server is broadcasting in real time.
 
 > To test two different usernames, use a regular browser window and a private/incognito window, then sign in with a separate Hoot account in each. Regular tabs share `localStorage`, so they normally share the same signed-in user.
 
-## Trace the matching pair
+<!-- ## Trace the matching pair
 
 ```javascript
 // Express sends to everyone
@@ -208,4 +210,4 @@ socket.on('chat message', (newMessage) => {
 })
 ```
 
-The client-to-server event and server-to-client event happen to use the same name. This is allowed, but they are two separate emissions in two separate directions.
+The client-to-server event and server-to-client event happen to use the same name. This is allowed, but they are two separate emissions in two separate directions. -->
