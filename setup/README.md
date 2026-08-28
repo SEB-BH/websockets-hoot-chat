@@ -7,7 +7,7 @@
 
 ## Start from the completed Hoot application
 
-This lesson adds a feature to the completed Hoot application. You should already have two separate project folders:
+This lesson adds a feature to the completed Hoot application. You should already have two separate project folders (yours might have different naems):
 
 ```plaintext
 express-api-hoot-back-end
