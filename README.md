@@ -18,6 +18,16 @@ By the end of this module, students will be able to:
 - Store incoming messages in React state and render them.
 - Use logs, connection IDs, two browser tabs, and WebSocket frames to debug a real-time feature.
 
+**This assumes you have completed the Hoot Frontend and Hoot Backend already**
+
+- Hoot Frontend Lecture Code (solution branch): [Frontend](https://github.com/SEB-14-Bahrain/hoot-frontend/tree/solution)
+- Hoot Backend Lecture Code: [Backend](https://github.com/SEB-14-Bahrain/express-api-hoot-back-end/tree/main)
+  
+#### Solution code
+
+- Hoot Frontend with Websockets complete Solution Code (websockets branch): [Frontend with websockets](https://github.com/SEB-14-Bahrain/hoot-frontend/tree/websockets)
+- Hoot Backend with Websockets complete Solution Code (websockets branch): [Backend with websockets](https://github.com/SEB-14-Bahrain/express-api-hoot-back-end/tree/websockets)
+
 ## Content
 
 | Lesson | Skills |
@@ -38,22 +48,6 @@ By the end of this module, students will be able to:
 | Lesson | Skills |
 | --- | --- |
 | [Level Ups](./level-ups/README.md) | Planning message history, rooms, socket authentication, and other improvements. |
-
-## What students will build
-
-The completed feature has one protected route:
-
-```plaintext
-/chat
-```
-
-On that page, a signed-in user can:
-
-- See whether the browser is connected to the chat server.
-- Enter a message in a controlled React form.
-- Send the username and message text to the Express server.
-- Receive the server's broadcast.
-- See messages sent from other open browsers without refreshing the page.
 
 
 ## References
