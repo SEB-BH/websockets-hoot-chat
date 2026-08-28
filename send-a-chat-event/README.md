@@ -13,7 +13,7 @@ We will now test only this half of the complete chat flow:
 React form -> Socket.IO event -> Express server
 ```
 
-The message will not appear on the page yet. That limitation is useful because it tells us exactly which half of the feature we are testing.
+The message will not appear on the page yet, only in our Express server (backend).
 
 ## Emit from React
 
@@ -21,25 +21,24 @@ Open `src/pages/Chat.jsx` in the front-end.
 
 Inside `handleSubmit`, add one line after the `messageData` object is created:
 
-```javascript
+```jsx
 const handleSubmit = (event) => {
   event.preventDefault()
 
-  const trimmedMessage = messageText.trim()
-
-  if (!trimmedMessage) {
-    return
+  if (!formData.trim()) {
+      return
   }
 
   const messageData = {
-    username: props.user.username,
-    text: trimmedMessage,
+      username: props.user.username,
+      text: formData.trim(),
   }
 
-  console.log('Chat event emitted:', messageData)
+  console.log('Chat form submitted:', messageData)
+  // add this line 
   socket.emit('chat message', messageData)
 
-  setMessageText('')
+  setFormData('')
 }
 ```
 
@@ -80,6 +79,7 @@ Inside it, add a listener for the exact same event name:
 io.on('connection', (socket) => {
   console.log('Socket connected:', socket.id)
 
+  // add this listener
   socket.on('chat message', (messageData) => {
     console.log('Chat event received:', messageData)
   })
@@ -130,19 +130,6 @@ You should see:
 Chat event received: { username: 'your-name', text: 'Can the server hear me?' }
 ```
 
-### Page interface
-
-You should **not** see a visible message list yet.
-
-This combination of results proves that:
-
-- The form created the correct object.
-- The React client emitted the event.
-- The event crossed the socket connection.
-- The server's matching listener ran.
-
-It does not yet prove that the server can send data back.
-
 ## A useful debugging rule
 
 When an event listener does not run, compare the names character by character:
@@ -161,10 +148,3 @@ These are different event names and will not match:
 ```
 
 Socket.IO does not report a spelling error for a custom event. It simply has no matching listener to call.
-
-## Checkpoint
-
-Before continuing, identify the two pieces of evidence that prove the client-to-server direction works:
-
-- The browser console shows the emitted object.
-- The Express terminal shows the received object.
