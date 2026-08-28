@@ -40,7 +40,7 @@ Socket.IO gives us a simple event-based API for real-time communication. It also
 
 Socket.IO is not the same thing as the browser's raw `WebSocket` API. A plain WebSocket client cannot communicate directly with a Socket.IO server because Socket.IO adds its own protocol. That is why we installed matching Socket.IO packages on both sides.
 
-For this first lesson, Socket.IO lets us focus on three ideas:
+For this lesson, Socket.IO lets us focus on three ideas:
 
 - Connect a browser.
 - Emit a named event.
@@ -55,34 +55,17 @@ On the server, we will use both `io` and `socket`.
 | `io` | The Socket.IO server and its collection of connected clients. |
 | `socket` | One particular browser connection. |
 
-This difference matters when the server sends data:
-
-```javascript
-socket.emit('chat message', message)
-```
-
-The code above sends to one socket.
-
-```javascript
-io.emit('chat message', message)
-```
-
-The code above sends to every connected socket, including the browser that originally sent the message. Our global chat will use `io.emit()`.
-
-On the React side, `socket` represents that browser's connection to the server.
-
-### Another way of thinking about sockets
 
 If Aisha opens Hoot Chat in two tabs, she has:
 - 2 browser tabs
 - 2 sockets
 - only 1 user
 
-Now imagine Sara sends a message in Hoot Chat.  Sara's browser tab uses it's socket to send the message to the server (using `emit`).  The server listens for this message.  Then the server uses `io` to send the message to everyone's socket.  The browser listens for that "announcement" from the server.
+Now imagine Sara sends a message in Hoot Chat.  Sara's browser tab uses it's `socket` to send the message to the server (using `emit`).  The server listens for this message.  Then the server uses `io` to send the message to everyone's `socket`.  The browser listens for that "announcement" from the server.
 
 So sessentially:
-- a `socket` is one open connection
-- `io` is the server managing all the connections
+- a `socket` is one open connection in the browser
+- `io` is on the server managing all the connections
 - the Hoot Chat is the feature we will put in our app that uses those connections
 
 ## Events must form matching pairs
@@ -91,7 +74,7 @@ An emitted event needs a listener with the same event name.
 
 ### Some example code (we're not implementing yet, just looking)
 
-React will emit:
+Sara sends a message - React will emit:
 
 ```javascript
 socket.emit('chat message', messageData)
@@ -113,7 +96,7 @@ Express will emit:
 io.emit('chat message', newMessage)
 ```
 
-React will listen:
+Sara and Aisha both see the message in Hoot Chat because React is listening for an "announcemnt":
 
 ```javascript
 socket.on('chat message', (newMessage) => {
@@ -121,7 +104,7 @@ socket.on('chat message', (newMessage) => {
 })
 ```
 
-The words `chat message` are not built into Socket.IO. We chose that event name. **If one side uses `chat-message` and the other uses `chat message`, the listener will never run.**
+The words `chat message` are not built into Socket.IO. We chose that event name. **If one side uses `chat-message` (with a dash) and the other uses `chat message` (a space instead of a dash), the listener will never run.**
 
 Our completed message flow will be:
 
