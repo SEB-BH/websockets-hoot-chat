@@ -13,7 +13,7 @@ Add a third state variable:
 
 ```javascript
 const [isConnected, setIsConnected] = useState(socket.connected)
-const [messageText, setMessageText] = useState('')
+const [formData, setFormData] = useState('')
 const [messages, setMessages] = useState([])
 ```
 
@@ -58,7 +58,7 @@ It also lets our effect keep an empty dependency array. The effect does not need
 Below the connection status and above the form, add:
 
 ```javascript
-<section aria-live='polite'>
+<section>
   <h2>Messages</h2>
 
   {messages.length === 0 && (
@@ -66,14 +66,6 @@ Below the connection status and above the form, add:
   )}
 </section>
 ```
-
-`aria-live='polite'` allows assistive technology to announce new content without abruptly interrupting the user.
-
-### Stop and check
-
-Open Chat or refresh the page. You should see the empty-state message.
-
-If React reports that `messages` is not defined, check that its `useState([])` line is inside the `Chat` component and above the effect.
 
 ## Render the messages
 
@@ -97,110 +89,97 @@ Your completed `src/pages/Chat.jsx` should now look like this:
 ```javascript
 // src/pages/Chat.jsx
 
-import { useEffect, useState } from 'react'
 import socket from '../socket'
+import { useState, useEffect } from 'react'
 
 const Chat = (props) => {
-  const [isConnected, setIsConnected] = useState(socket.connected)
-  const [messageText, setMessageText] = useState('')
-  const [messages, setMessages] = useState([])
+    const [isConnected, setIsConnected] = useState(socket.connected)
+    const [formData, setFormData] = useState('')
+    const [messages, setMessages] = useState([])
 
-  useEffect(() => {
-    const handleConnect = () => {
-      console.log('Connected to chat:', socket.id)
-      setIsConnected(true)
+    useEffect(() => {
+        const handleConnect = () => {
+            console.log('Connected to chat: ', socket.id)
+            setIsConnected(true)
+        }   
+
+        const handleDisconnect = () => {
+            console.log('Disconnected from chat')
+            setIsConnected(false)
+        }
+
+        const handleChatMessage = (newMessage) => {
+            console.log('Chat event received from server: ', newMessage)
+            setMessages((previousMessages) => {
+                return [...previousMessages, newMessage]
+            })
+        }
+
+        socket.on('connect', handleConnect)
+        socket.on('disconnect', handleDisconnect)
+        socket.on('chat message', handleChatMessage)
+
+        socket.connect()
+
+        return () => {
+            console.log('Leaving chat and closing socket')
+            socket.off('connect', handleConnect)
+            socket.off('disconnect', handleDisconnect)
+            socket.off('chat message', handleChatMessage)
+            socket.disconnect()
+        }
+    }, [])
+
+    const handleChange = (event) => {
+        setFormData(event.target.value)
     }
 
-    const handleDisconnect = () => {
-      console.log('Disconnected from chat')
-      setIsConnected(false)
+    const handleSubmit = (event) => {
+        event.preventDefault()
+
+        if (!formData.trim()) {
+            return
+        }
+
+        const messageData = {
+            username: props.user.username,
+            text: formData.trim(),
+        }
+
+        console.log('Chat form submitted:', messageData)
+        socket.emit('chat message', messageData)
+
+        setFormData('')
     }
 
-    const handleChatMessage = (newMessage) => {
-      console.log('Chat event received from server:', newMessage)
+    return (
+        <main>
+            <h1>Hoot Chat</h1>
+            <p>
+                Status: { isConnected ? 'Connected' : 'Disconnected'}
+            </p>
 
-      setMessages((previousMessages) => {
-        return [...previousMessages, newMessage]
-      })
-    }
+            <section>
+                <h2>Messages</h2>
 
-    socket.on('connect', handleConnect)
-    socket.on('disconnect', handleDisconnect)
-    socket.on('chat message', handleChatMessage)
+                {messages.length === 0 && (
+                    <p>No messages yet. Start the conversation!</p>
+                )}
+                {messages.map(message => (
+                    <article key={message.id}>
+                        <strong>{message.username}</strong>
+                        <p>{message.text}</p>
+                    </article>
+                ))}
+            </section>
 
-    socket.connect()
-
-    return () => {
-      console.log('Leaving chat and closing socket')
-      socket.off('connect', handleConnect)
-      socket.off('disconnect', handleDisconnect)
-      socket.off('chat message', handleChatMessage)
-      socket.disconnect()
-    }
-  }, [])
-
-  const handleChange = (event) => {
-    setMessageText(event.target.value)
-  }
-
-  const handleSubmit = (event) => {
-    event.preventDefault()
-
-    const trimmedMessage = messageText.trim()
-
-    if (!trimmedMessage) {
-      return
-    }
-
-    const messageData = {
-      username: props.user.username,
-      text: trimmedMessage,
-    }
-
-    console.log('Chat event emitted:', messageData)
-    socket.emit('chat message', messageData)
-
-    setMessageText('')
-  }
-
-  return (
-    <main>
-      <h1>Hoot Chat</h1>
-      <p>
-        Status: {isConnected ? 'Connected' : 'Disconnected'}
-      </p>
-
-      <section aria-live='polite'>
-        <h2>Messages</h2>
-
-        {messages.length === 0 && (
-          <p>No messages yet. Start the conversation!</p>
-        )}
-
-        {messages.map((message) => (
-          <article key={message.id}>
-            <strong>{message.username}</strong>
-            <p>{message.text}</p>
-          </article>
-        ))}
-      </section>
-
-      <form onSubmit={handleSubmit}>
-        <label htmlFor='message-input'>Message:</label>
-        <input
-          id='message-input'
-          name='message'
-          type='text'
-          value={messageText}
-          onChange={handleChange}
-          autoComplete='off'
-        />
-        <button type='submit' disabled={!isConnected}>
-          SEND
-        </button>
-      </form>
-    </main>
-  )
+            <form onSubmit={handleSubmit}>
+                Message:
+                <input type="text" name='message' value={formData} onChange={handleChange} />
+                <button type='submit' disabled={!isConnected}>SEND</button>
+            </form>
+        </main>
+    )
 }
 
 export default Chat
@@ -208,7 +187,7 @@ export default Chat
 
 ## Stop and check in one tab
 
-Submit a message.
+Refresh your React app.  Submit a message.
 
 Confirm that:
 
