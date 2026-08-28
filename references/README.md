@@ -30,6 +30,6 @@
 | Transport | The lower-level method used to move data, such as WebSocket or HTTP long-polling. |
 | Persistence | Saving data so it can be retrieved after a refresh or reconnection. |
 
-## Code reference
+<!-- ## Code reference
 
-The microlessons should be completed in order because each one adds a testable part of the flow. If you need to compare your completed files after finishing the lesson, use the [Final Code Reference](./final-code.md).
+The microlessons should be completed in order because each one adds a testable part of the flow. If you need to compare your completed files after finishing the lesson, use the [Final Code Reference](./final-code.md). -->

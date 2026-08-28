@@ -154,7 +154,6 @@ This does not yet test our React client. It only proves that Socket.IO is attach
 After the Express routes and before `server.listen()`, add:
 
 ```javascript
-// add new code here
 io.on('connection', (socket) => {
   console.log('Socket connected: ', socket.id)
 
