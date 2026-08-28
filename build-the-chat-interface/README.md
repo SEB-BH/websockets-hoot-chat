@@ -12,11 +12,10 @@ Before sending any data to Express, we will make sure the React form works by it
 This follows the same sequence used for other controlled forms:
 
 1. Create state.
-2. Display the state in an input.
-3. Update the state when the input changes.
-4. Handle submission.
-5. Inspect the data.
-6. Only then connect the form to an external system.
+2. Create a form in the return.
+3. Update the state when the input changes with `handleChange`.
+4. Handle submission with `handleSubmit`.
+5. Connect the form to an external system with a service function.
 
 ## Add message state
 
@@ -24,7 +23,7 @@ In `src/pages/Chat.jsx`, add another state variable below `isConnected`:
 
 ```javascript
 const [isConnected, setIsConnected] = useState(socket.connected)
-const [messageText, setMessageText] = useState('')
+const [formData, setFormData] = useState('')
 ```
 
 The state is a string because this form has only one input.
@@ -35,21 +34,14 @@ Below the `useEffect`, add:
 
 ```javascript
 const handleChange = (event) => {
-  setMessageText(event.target.value)
+  setFormData(event.target.value)
 }
 ```
 
 This function copies the input's current value into React state.
 
-## First check: inspect the state
 
-Temporarily add this log directly above the `return`:
-
-```javascript
-console.log('messageText state:', messageText)
-```
-
-Replace the current return with:
+Add a simple chat form:
 
 ```javascript
 return (
@@ -60,22 +52,21 @@ return (
     </p>
 
     <form>
-      <label htmlFor='message-input'>Message:</label>
-      <input
-        id='message-input'
-        name='message'
-        type='text'
-        value={messageText}
-        onChange={handleChange}
-        autoComplete='off'
-      />
-      <button type='submit'>SEND</button>
+        Message:
+        <input type="text" value={formData} onChange={handleChange} />
+        <button type='submit'>SEND</button>
     </form>
   </main>
 )
 ```
 
 ### Stop and check
+
+Temporarily add this log directly above the `return`:
+
+```javascript
+console.log('formData state:', formData)
+```
 
 Type `Hello Hoot!` into the input.
 
@@ -94,9 +85,7 @@ Below `handleChange`, add:
 const handleSubmit = (event) => {
   event.preventDefault()
 
-  const trimmedMessage = messageText.trim()
-
-  if (!trimmedMessage) {
+  if (!formData) {
     return
   }
 
@@ -107,10 +96,10 @@ const handleSubmit = (event) => {
 
   console.log('Chat form submitted:', messageData)
 
-  setMessageText('')
+  setFormData('')
 }
 ```
-
+<!-- 
 Let's break this function into its separate jobs.
 
 ### Prevent the refresh
@@ -124,15 +113,15 @@ The browser's normal form submission would refresh the page. We prevent that so 
 ### Remove extra whitespace
 
 ```javascript
-const trimmedMessage = messageText.trim()
+const trimmedMessage = formData.trim()
 ```
 
-`trim()` removes spaces from the beginning and end. A message containing only spaces becomes an empty string.
+`trim()` removes spaces from the beginning and end. A message containing only spaces becomes an empty string. -->
 
 ### Reject an empty message
 
 ```javascript
-if (!trimmedMessage) {
+if (!formData) {
   return
 }
 ```
@@ -144,16 +133,16 @@ If the string is empty, the function stops before creating or sending anything.
 ```javascript
 const messageData = {
   username: props.user.username,
-  text: trimmedMessage,
+  text: formData,
 }
 ```
 
-The `user` was passed from `App.jsx`. For now, the message contains only the two values the chat needs.
+The `user` was passed from `App.jsx`. For now, the message contains only the two values the chat needs. **👈 BE SURE YOU'RE ACCEPTING PROPS IN YOUR COMPONENT**
 
 ### Clear the controlled input
 
 ```javascript
-setMessageText('')
+setFormData('')
 ```
 
 Because the input's `value` comes from state, resetting state also clears the field on the page.
@@ -174,90 +163,80 @@ Also disable the button when this browser is not connected:
 </button>
 ```
 
+You can stop your Express server with `ctrl + c` to check if your button is disabling when not connected.
+
 ## Complete Chat page at this checkpoint
 
 Your component should now look like this:
 
 ```javascript
 // src/pages/Chat.jsx
-
-import { useEffect, useState } from 'react'
 import socket from '../socket'
+import { useState, useEffect } from 'react'
 
 const Chat = (props) => {
-  const [isConnected, setIsConnected] = useState(socket.connected)
-  const [messageText, setMessageText] = useState('')
+    const [isConnected, setIsConnected] = useState(socket.connected)
+    const [formData, setFormData] = useState('')
 
-  useEffect(() => {
-    const handleConnect = () => {
-      console.log('Connected to chat:', socket.id)
-      setIsConnected(true)
+    useEffect(() => {
+        const handleConnect = () => {
+            console.log('Connected to chat: ', socket.id)
+            setIsConnected(true)
+        }   
+
+        const handleDisconnect = () => {
+            console.log('Disconnected from chat')
+            setIsConnected(false)
+        }
+
+        socket.on('connect', handleConnect)
+        socket.on('disconnect', handleDisconnect)
+
+        socket.connect()
+
+        return () => {
+            console.log('Leaving chat and closing socket')
+            socket.off('connect', handleConnect)
+            socket.off('disconnect', handleDisconnect)
+            socket.disconnect()
+        }
+    }, [])
+
+    const handleChange = (event) => {
+        setFormData(event.target.value)
     }
 
-    const handleDisconnect = () => {
-      console.log('Disconnected from chat')
-      setIsConnected(false)
+    const handleSubmit = (event) => {
+        event.preventDefault()
+
+        if (!formData) {
+            return
+        }
+
+        const messageData = {
+            username: props.user.username,
+            text: formData,
+        }
+
+        console.log('Chat form submitted:', messageData)
+
+        setFormData('')
     }
 
-    socket.on('connect', handleConnect)
-    socket.on('disconnect', handleDisconnect)
+    return (
+        <main>
+            <h1>Hoot Chat</h1>
+            <p>
+                Status: { isConnected ? 'Connected' : 'Disconnected'}
+            </p>
 
-    socket.connect()
-
-    return () => {
-      console.log('Leaving chat and closing socket')
-      socket.off('connect', handleConnect)
-      socket.off('disconnect', handleDisconnect)
-      socket.disconnect()
-    }
-  }, [])
-
-  const handleChange = (event) => {
-    setMessageText(event.target.value)
-  }
-
-  const handleSubmit = (event) => {
-    event.preventDefault()
-
-    const trimmedMessage = messageText.trim()
-
-    if (!trimmedMessage) {
-      return
-    }
-
-    const messageData = {
-      username: props.user.username,
-      text: trimmedMessage,
-    }
-
-    console.log('Chat form submitted:', messageData)
-
-    setMessageText('')
-  }
-
-  return (
-    <main>
-      <h1>Hoot Chat</h1>
-      <p>
-        Status: {isConnected ? 'Connected' : 'Disconnected'}
-      </p>
-
-      <form onSubmit={handleSubmit}>
-        <label htmlFor='message-input'>Message:</label>
-        <input
-          id='message-input'
-          name='message'
-          type='text'
-          value={messageText}
-          onChange={handleChange}
-          autoComplete='off'
-        />
-        <button type='submit' disabled={!isConnected}>
-          SEND
-        </button>
-      </form>
-    </main>
-  )
+            <form onSubmit={handleSubmit}>
+                Message:
+                <input type="text" name='message' value={formData} onChange={handleChange} />
+                <button type='submit' disabled={!isConnected}>SEND</button>
+            </form>
+        </main>
+    )
 }
 
 export default Chat
@@ -275,7 +254,19 @@ Submit `Hello Hoot!` and confirm:
   Chat form submitted: {username: 'nabila', text: 'Hello Hoot!'}
   ```
 
-- Submitting only spaces does nothing.
-- The Express terminal does **not** display the message yet.
+## Handle submitting only spaces
 
-That final result is intentional. The form produces correct data, but we have not emitted a socket event.
+Inside of our `handleSubmit`, let's tack on `.trim()` to each instance of `formData` - this will remove white space and prevent the user from submitting an empty chat message.  
+
+Updated section of `handleSubmit`:
+
+```jsx
+ if (!formData.trim()) {
+    return
+ }
+
+ const messageData = {
+     username: props.user.username,
+     text: formData.trim(),
+}
+```
